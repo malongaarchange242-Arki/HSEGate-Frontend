@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte rendu — HSEGate</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="entete">
+        <div class="entete-gauche">
+            <img src="assets/logo.png" alt="Logo HSEGate" class="logo-entete">
+            <span class="nom-app">HSEGate</span>
+        </div>
+        <div class="entete-droite">
+            <button onclick="window.location.href='dashboard.html'" class="btn-retour">← Retour</button>
+        </div>
+    </header>
+
+    <main class="conteneur">
+        <h1 id="titrePage">Rédiger un compte rendu</h1>
+
+        <form id="formRapport" class="formulaire">
+            <input type="hidden" id="typeRapport" value="normal">
+
+            <div class="ligne-form">
+                <div class="champ">
+                    <label>Date et heure</label>
+                    <input type="date" id="dateRapport" required>
+                    <input type="time" id="heureRapport" required style="margin-top:0.5rem;">
+                </div>
+                <div class="champ">
+                    <label>Zone / Emplacement</label>
+                    <select id="zoneRapport" required>
+                        <option value="">Choisir une zone</option>
+                        <option>Zone A — Entrée</option>
+                        <option>Zone B — Atelier principal</option>
+                        <option>Zone C — Stockage</option>
+                        <option>Zone D — Extérieur</option>
+                        <option>Zone E — Bureau</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="champ" id="blocSujetNormal">
+                <label>Sujet / Objet</label>
+                <input type="text" id="sujet" placeholder="Ex : Rapport de tournée — Contrôle EPI — Observation" required>
+            </div>
+
+            <!-- ⚠️ CATÉGORIES D'INCIDENT -->
+            <div class="champ" id="blocCategoriesIncident" style="display: none;">
+                <label>📋 Catégorie d'incident / accident</label>
+                <select id="categorieIncident" onchange="autreCategorie()">
+                    <option value="">Sélectionner une catégorie</option>
+                    <optgroup label="🔹 Blessures corporelles">
+                        <option>Coupure / Blessure</option>
+                        <option>Piqûre / Pénétration</option>
+                        <option>Brûlure (thermique / chimique)</option>
+                        <option>Entorse / Foulure</option>
+                        <option>Chute de plain-pied</option>
+                        <option>Chute de hauteur</option>
+                        <option>Heurt par un véhicule / machine</option>
+                        <option>Exposition produit chimique</option>
+                        <option>Autre blessure</option>
+                    </optgroup>
+                    <optgroup label="🔹 Dommages matériels / Environnement">
+                        <option>Équipement / Machine endommagé(e)</option>
+                        <option>Outil cassé / Défectueux</option>
+                        <option>Déversement / Fuite produit</option>
+                        <option>Structure / Installation dégradée</option>
+                        <option>Électricité / Court-circuit</option>
+                        <option>Incendie / Départ de feu</option>
+                        <option>Autre dommage matériel</option>
+                    </optgroup>
+                    <optgroup label="🔹 Situation dangereuse / Presque accident">
+                        <option>Presque accident — Sans conséquence</option>
+                        <option>Zone dangereuse non signalée</option>
+                        <option>Éclairage insuffisant</option>
+                        <option>Sol glissant / Encombré</option>
+                        <option>Équipement de sécurité absent / défaillant</option>
+                        <option>Comportement à risque</option>
+                        <option>Autre situation dangereuse</option>
+                    </optgroup>
+                    <option value="AUTRE">✏️ Autre catégorie — À préciser</option>
+                </select>
+            </div>
+
+            <!-- ✏️ CHAMP LIBRE SI "AUTRE CATÉGORIE" -->
+            <div class="champ" id="blocAutreCategorie" style="display: none;">
+                <label>Précisez la catégorie</label>
+                <input type="text" id="autreCategorieInput" placeholder="Décrivez la catégorie…">
+            </div>
+
+            <div class="champ">
+                <label>Description détaillée de la situation</label>
+                <textarea id="description" rows="5" placeholder="Décrivez ce qui s'est passé, dans l'ordre, avec les circonstances…" required></textarea>
+            </div>
+
+            <div class="champ">
+                <label>Personnes impliquées / Témoins</label>
+                <textarea id="personnes" rows="2" placeholder="Nom, prénom, fonction — si applicable"></textarea>
+            </div>
+
+            <div class="champ">
+                <label>Constat / Observations</label>
+                <textarea id="constat" rows="3" placeholder="Ce qui a été remarqué, causes probables…"></textarea>
+            </div>
+
+            <div class="champ">
+                <label>Actions immédiates prises</label>
+                <textarea id="actions" rows="3" placeholder="Premiers soins, arrêt de l'activité, balisage, alerte…"></textarea>
+            </div>
+
+            <!--  PHOTO JOINTE -->
+            <div class="champ">
+                <label> Photo jointe (facultatif )</label>
+                <input type="file" id="photoJointe" accept="image/*">
+                <p class="texte-apercu">Utile pour les incidents — s'affichera dans le rapport généré.</p>
+            </div>
+
+            <div class="champ">
+                <label>Nom du déclarant</label>
+                <input type="text" id="nomDeclarant" placeholder="Votre nom et prénom" required>
+            </div>
+
+            <button type="submit" class="btn-principal"> Générer le document</button>
+        </form>
+
+        <!-- 📄 RAPPORT GÉNÉRÉ -->
+        <div id="rapportGenere" class="rapport-genere">
+            <h2 id="titreRapportGenere">Compte rendu — Aperçu</h2>
+            <div class="contenu-rapport">
+                <p><strong>Date et heure :</strong> <span id="r-date"></span> à <span id="r-heure"></span></p>
+                <p><strong>Zone / Emplacement :</strong> <span id="r-zone"></span></p>
+                <p id="r-categorie-ligne" style="display:none;"><strong>Catégorie :</strong> <span id="r-categorie"></span></p>
+                <p><strong>Sujet / Objet :</strong> <span id="r-sujet"></span></p>
+                <hr>
+                <p><strong>Description de la situation :</strong></p>
+                <p id="r-description"></p>
+                <p id="r-personnes-ligne" style="display:none;"><strong>Personnes impliquées / Témoins :</strong></p>
+                <p id="r-personnes"></p>
+                <p><strong>Constat / Observations — Causes probables :</strong></p>
+                <p id="r-constat"></p>
+                <p><strong>Actions immédiates prises :</strong></p>
+                <p id="r-actions"></p>
+                
+                <!--  PHOTO DANS LE RAPPORT -->
+                <div id="blocPhotoRapport" style="display:none; margin: 1rem 0;">
+                    <p><strong>Photo jointe :</strong></p>
+                    <img id="apercuPhotoRapport" alt="Photo jointe" style="max-width:350px; border-radius:8px; margin-top:0.5rem;">
+                </div>
+                
+                <hr>
+                <p><strong>Déclarant :</strong> <span id="r-nom"></span></p>
+            </div>
+            <div class="actions-rapport">
+                <button onclick="window.print()" class="btn-secondaire"> Imprimer / Enregistrer en PDF</button>
+                <button onclick="nouveauRapport()" class="btn-principal">Nouvelle déclaration</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

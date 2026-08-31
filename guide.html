@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide HSE — HSEGate</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* Mise en forme pour avoir IMAGE + TEXTE côte à côte */
+        .bloc-epi {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .bloc-epi:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .img-epi {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #F8FAFC;
+            padding: 0.5rem;
+            flex-shrink: 0;
+        }
+        .contenu-epi {
+            flex: 1;
+        }
+        .contenu-epi h2 {
+            color: #059669;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .contenu-epi p {
+            line-height: 1.6;
+            color: #475569;
+        }
+        /* Sur mobile : image au-dessus du texte */
+        @media (max-width: 600px) {
+            .bloc-epi {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="entete">
+        <div class="entete-gauche">
+            <img src="assets/logo.png" alt="Logo HSEGate" class="logo-entete">
+            <span class="nom-app">HSEGate</span>
+        </div>
+        <div class="entete-droite">
+            <span id="nomUtilisateur">Utilisateur</span>
+            <span class="zone-utilisateur" id="zoneUtilisateur">Zone —</span>
+            <button onclick="window.location.href='dashboard.html'" class="btn-deconnexion">Retour</button>
+        </div>
+    </header>
+
+    <main class="conteneur">
+        <h1 style="margin-bottom: 2rem; color: #0F2942;">Guide HSE — Équipements obligatoires</h1>
+
+        <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(15,41,66,0.06);">
+
+            <!--  CASQUE -->
+            <div class="bloc-epi">
+                <img src="assets/epi-casque.png" alt="Casque de protection" class="img-epi">
+                <div class="contenu-epi">
+                    <h2>Casque de protection</h2>
+                    <p>Doit être porté en permanence sur le site. Il protège contre les chutes d'objets et les heurts. Vérifiez son état avant chaque utilisation.</p>
+                </div>
+            </div>
+
+            <!--  CHAUSSURES -->
+            <div class="bloc-epi">
+                <img src="assets/epi-chaussures.png" alt="Chaussures de sécurité" class="img-epi">
+                <div class="contenu-epi">
+                    <h2>Chaussures de sécurité</h2>
+                    <p>Avec coque de protection orteils et semelle anti-perforation. Obligatoire sur toutes les zones de travail, même pour une courte visite.</p>
+                </div>
+            </div>s
+
+            <!--  LUNETTES -->
+            <div class="bloc-epi">
+                <img src="assets/epi-lunettes.png" alt="Lunettes de protection" class="img-epi">
+                <div class="contenu-epi">
+                    <h2>Lunettes de protection</h2>
+                    <p>Obligatoire en zone de travail, particulièrement lors de manipulation de matériaux, en présence de projections ou de poussières.</p>
+                </div>
+            </div>
+
+            <!--  GANTS -->
+            <div class="bloc-epi">
+                <img src="assets/epi-gants.png" alt="Gants de protection" class="img-epi">
+                <div class="contenu-epi">
+                    <h2>Gants de protection</h2>
+                    <p>Adaptés au type de travail : anti-coupure, anti-chaleur ou chimique. À changer dès qu'ils sont percés ou déchirés.</p>
+                </div>
+            </div>
+
+            <!--  COMBINAISON -->
+            <div class="bloc-epi">
+                <img src="assets/epi-combinaison.png" alt="Combinaison de travail" class="img-epi">
+                <div class="contenu-epi">
+                    <h2>Combinaison de travail</h2>
+                    <p>Vêtement adapté aux risques du site. Doit être fermé et ajusté. Pas de vêtements amples qui peuvent se prendre dans les machines.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

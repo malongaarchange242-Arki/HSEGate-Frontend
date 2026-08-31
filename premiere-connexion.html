@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Première connexion — HSEGate</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Style du message d'erreur  */
+        .message-erreur {
+            color: #DC2626;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .message-succes {
+            color: #059669;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="page-connexion">
+
+    <div class="boite-connexion">
+        <h1>Première connexion</h1>
+        <p class="sous-titre-connexion">Créez votre mot de passe pour accéder à votre espace</p>
+
+        <form id="formPremiereConnexion">
+            <div class="champ">
+                <label>Adresse e-mail</label>
+                <input type="email" id="email" placeholder="prenom.nom@entreprise.cg" required>
+            </div>
+
+            <div class="champ">
+                <label>Nouveau mot de passe</label>
+                <input type="password" id="nouveauMdp" placeholder="Choisissez votre mot de passe" required>
+            </div>
+
+            <div class="champ">
+                <label>Confirmer le mot de passe</label>
+                <input type="password" id="confirmerMdp" placeholder="Répétez votre mot de passe" required>
+                <!-- Message d'erreur qui s'affiche si ce n'est pas identique -->
+                <div id="messageErreur" class="message-erreur"> Les mots de passe ne sont pas identiques</div>
+            </div>
+
+            <button type="submit" class="btn-connexion">Valider et créer mon compte</button>
+
+            <!-- Message de succès avant redirection -->
+            <div id="messageSucces" class="message-succes">
+                 Mot de passe créé avec succès !<br>
+                Redirection vers la connexion...
+            </div>
+        </form>
+
+        <a href="index.html" class="lien-reinit">← Retour à la connexion</a>
+    </div>
+
+    <script>
+        //  VÉRIFICATION EN TEMPS RÉEL
+        const nouveauMdp = document.getElementById('nouveauMdp');
+        const confirmerMdp = document.getElementById('confirmerMdp');
+        const messageErreur = document.getElementById('messageErreur');
+        const messageSucces = document.getElementById('messageSucces');
+        const form = document.getElementById('formPremiereConnexion');
+
+        // Vérifie dès que l'on tape dans le champ "confirmer"
+        confirmerMdp.addEventListener('input', verifierCorrespondance);
+        nouveauMdp.addEventListener('input', verifierCorrespondance);
+
+        function verifierCorrespondance() {
+            if (confirmerMdp.value && nouveauMdp.value !== confirmerMdp.value) {
+                //  affiche l'erreur
+                messageErreur.style.display = 'block';
+                confirmerMdp.style.borderColor = '#DC2626';
+            } else {
+                //  cache l'erreur
+                messageErreur.style.display = 'none';
+                confirmerMdp.style.borderColor = '#CBD5E1';
+            }
+        }
+
+        //  AU CLIC SUR VALIDER
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            // Reverifie une dernière fois avant validation
+            if (nouveauMdp.value !== confirmerMdp.value) {
+                messageErreur.style.display = 'block';
+                confirmerMdp.style.borderColor = '#DC2626';
+                return; 
+            }
+
+            //  SUCCÈS
+            messageSucces.style.display = 'block'; // Affiche le message
+            form.querySelector('.btn-connexion').disabled = true; // Bloque le bouton
+            form.querySelector('.btn-connexion').textContent = 'Enregistrement...';
+
+            //  Ici le mot de passe serait enregistré dans la base de données
+            // (pour l'instant on simule )
+
+            //  REDIRECTION AUTOMATIQUE APRÈS 2 SECONDES
+            setTimeout(function() {
+                window.location.href = 'index.html'; // Retour à la page de connexion
+            }, 2000); // 2000 millisecondes = 2 secondes
+        });
+    </script>
+
+</body>
+</html>
